@@ -1,3 +1,5 @@
+## Background
+
 This is a sandbox hacking game.
 
 The game requires save file to function properly even for the first run: `SaveData.json`.
