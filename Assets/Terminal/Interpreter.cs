@@ -6,66 +6,47 @@ using UnityEngine;
 public class Interpreter : MonoBehaviour
 {
     TerminalManager TM;
+    GameManager GM;
+    static List<string> hackosCmds = new List<string> { "voler", "bleed", "nmap", "nslookup", "hydra", "ssh" };
     void Awake()
     {
         TM = this.GetComponent<TerminalManager>(); // using `this` ensures the correct TM in multi-terminal scenarios
+        GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
     public void Interpret(string userInput)
     {
         Argument args = ParseArguments(userInput);
-
         string command;
-        Hacker hacker = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().hacker;
+        Hacker hacker = GM.hacker;
+
         if (!hacker.hackTools.Contains(args.command))
-        {
             command = "----";
-        }
         else command = args.command;
+
         bool localSession = TM.sessions.Last().hostname == "hack0s";
+        if (!localSession && hackosCmds.Contains(command))
+            command = "----";
+
         switch (command)
         {
             case "voler":
-                if (localSession)
-                {
-                    Voler.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Voler.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "bleed":
-                if (localSession)
-                {
-                    Bleed.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Bleed.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "nmap":
-                if (localSession)
-                {
-                    Nmap.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Nmap.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "nslookup":
-                if (localSession)
-                {
-                    Nslookup.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Nslookup.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "hydra":
-                if (localSession)
-                {
-                    Hydra.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Hydra.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "ssh":
-                if (localSession)
-                {
-                    Ssh.Execute(TM, args.flagArgs, args.cmdArgs);
-                    break;
-                }
-                else goto default;
+                Ssh.Execute(TM, args.flagArgs, args.cmdArgs);
+                break;
             case "exit":
                 TerminalCommand.Exit.Execute(TM);
                 break;
@@ -170,7 +151,7 @@ public class Interpreter : MonoBehaviour
                 ret.cmdArgs.Add(rawArgs[i]);
             }
         }
-        ret.Log();
+        // ret.Log();
         return ret;
     }
 }
