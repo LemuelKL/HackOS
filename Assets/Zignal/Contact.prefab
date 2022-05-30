@@ -246,7 +246,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1522000206845936215, guid: ca7332b57d1e51441a5a43adecf307e8, type: 3}
+      - m_Target: {fileID: 1228646552491632647, guid: ca7332b57d1e51441a5a43adecf307e8, type: 3}
         m_TargetAssemblyTypeName: ZignalController, Assembly-CSharp
         m_MethodName: HandleChatSelectionChange
         m_Mode: 2

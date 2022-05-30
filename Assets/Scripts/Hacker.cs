@@ -9,6 +9,8 @@ public class Hacker
 
     public List<string> hackTools;
 
+    public List<string> completedJobs;
+
     public Hacker()
     {
         // this.money = 5;

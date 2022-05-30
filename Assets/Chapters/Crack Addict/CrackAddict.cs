@@ -60,14 +60,30 @@ public class CrackAddict : Chapter
     {
         Debug.Log("Now playing: CrackAddct");
     }
-
-    public override bool HasCompleted()
+    public bool Complete()
     {
+        if (!CanComplete())
+            return false;
+        Reward();
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().hacker.completedJobs.Add("Crack Addict");
+        return true;
+    }
+
+    public bool CanComplete()
+    {
+        FileSystemManager FSM = GameObject.FindGameObjectWithTag("FileSystemManager").GetComponent<FileSystemManager>();
+        if (FSM.GetFileNode("localhost", "/home/root/downloads/exam.pdf") != null)
+        {
+            return true;
+        }
         return false;
     }
 
-    public override void ClaimReward()
+    override public void Reward()
     {
-        return;
+        GameManager GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        GM.hacker.money += this.rewardMoney;
+        GM.SaveGame();
+        GM.LoadGame();
     }
 }

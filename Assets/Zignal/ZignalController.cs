@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ZignalController : MonoBehaviour
 {
-    public GameObject chatList;
+    public static string chatter;
     public GameObject chatLinePrefab;
     public GameObject contactList;
     public GameObject contactPrefab;
@@ -17,9 +17,10 @@ public class ZignalController : MonoBehaviour
     public Sprite human_sea;
     public Sprite old_fashioned;
 
-    // public GameObject crackAddictAnswerPrefab;
-    // public GameObject heartSurgeonAnswerPrefab;
-    // public GameObject taylorMadeAnswerPrefab;
+    private List<string> mainUIs;
+    GameManager GM;
+    private Button doJobBtn;
+    private Button replyBtn;
 
     void Start()
     {
@@ -39,10 +40,46 @@ public class ZignalController : MonoBehaviour
             // Need to set Toggle Group programmatically coz Unity would not respect what's set in the Inspector. Might be a Unity bug actually.
             newContact.GetComponent<Toggle>().group = this.contactList.GetComponent<ToggleGroup>();
         }
+        mainUIs = new List<string>();
+        mainUIs.Add("ContactScroll");
+        mainUIs.Add("ChatScroll");
+        mainUIs.Add("ActionArea");
+    }
 
-        // Debug.Log(crackAddictAnswerPrefab);
-        // Debug.Log(heartSurgeonAnswerPrefab);
-        // Debug.Log(taylorMadeAnswerPrefab);
+    void Awake()
+    {
+        Transform actionArea = GameObject.FindGameObjectWithTag("Zignal").transform.Find("ActionArea").transform;
+        doJobBtn = actionArea.Find("BeginBtn").GetComponent<Button>();
+        replyBtn = actionArea.Find("ReplyBtn").GetComponent<Button>();
+        GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+    }
+
+    void Update()
+    {
+        List<string> completedChatters = GM.hacker.completedJobs;
+        if (completedChatters.Contains(chatter))
+        {
+            doJobBtn.interactable = false;
+            replyBtn.interactable = false;
+            doJobBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "Completed";
+            replyBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "Replied";
+        }
+        else
+        {
+            if (chatter == GM.activeChapterName)
+            {
+                doJobBtn.interactable = false;
+                doJobBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "In Progress";
+                replyBtn.interactable = true;
+            }
+            else
+            {
+                doJobBtn.interactable = true;
+                doJobBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "Do Job";
+                replyBtn.interactable = false;
+            }
+            replyBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "Reply";
+        }
     }
 
     private class chatRecord
@@ -55,10 +92,6 @@ public class ZignalController : MonoBehaviour
             this.msg = msg;
         }
     }
-
-    /// <summary>
-    /// Pre-existing chat history for each game chapter
-    /// </summary>
     private Dictionary<string, List<chatRecord>> chatHistory = new Dictionary<string, List<chatRecord>>()
     {
         {"Crack Addict", new List<chatRecord>(){
@@ -68,12 +101,18 @@ public class ZignalController : MonoBehaviour
             new chatRecord("CA", "right, get me a pdf "),
             new chatRecord("CA", "final exam of COMP3329"),
             new chatRecord("CA", "on hcku.hk"),
+            new chatRecord("Me", "that'll be 15 BTC"),
+            new chatRecord("CA", "right."),
         }},
         {"Heart Surgeon", new List<chatRecord>(){
             new chatRecord("HS", "Yo, heard u short on $"),
             new chatRecord("Me", "yea..."),
             new chatRecord("HS", "Get me 3 accounts of this site:"),
             new chatRecord("HS", "172.245.143.198"),
+            new chatRecord("HS", "I need `root`, `staff` and `admin`"),
+            new chatRecord("Me", "ok"),
+            new chatRecord("Me", "that'll be 15 BTC"),
+            new chatRecord("CA", "right."),
         }},
         {"Taylor Made", new List<chatRecord>(){
             new chatRecord("TM", "I really like this girl..."),
@@ -102,35 +141,8 @@ public class ZignalController : MonoBehaviour
             if (chatRecord.sender == "Me")
                 chatLine.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleRight;
             else
-                chatLine.GetComponent<HorizonclLayoutGroup>().childAlignment = TextAnchor.MiddleLeft;
+                chatLine.GetComponent<HorizontalLayoutGroup>().childAlignment = TextAnchor.MiddleLeft;
         }
-
-        // Transform zignal = GameObject.FindGameObjectWithTag("Zignal").transform;
-
-        // foreach (Transform child in zignal)
-        // {
-        //     if (child.name.Contains("(Clone)"))
-        //         Destroy(child.gameObject);
-        // }
-        // GameObject answerArea = null;
-        // if (chatter == "Crack Addict")
-        // {
-        //     answerArea = Instantiate(this.crackAddictAnswerPrefab, zignal);
-        // }
-        // if (chatter == "Heart Surgeon")
-        // {
-        //     Debug.Log(heartSurgeonAnswerPrefab);
-        //     answerArea = Instantiate(this.heartSurgeonAnswerPrefab, zignal);
-        // }
-        // if (chatter == "Taylor Made")
-        // {
-        //     answerArea = Instantiate(this.taylorMadeAnswerPrefab, zignal);
-        // }
-        // if (answerArea != null)
-        // {
-        //     answerArea.transform.SetAsLastSibling();
-        // }
-
         // need this
         LayoutRebuilder.ForceRebuildLayoutImmediate(chatListTransform as RectTransform);
     }
@@ -138,9 +150,72 @@ public class ZignalController : MonoBehaviour
     {
         if (changedContact.isOn == true)
         {
-            string chatter = changedContact.GetComponentInChildren<Text>().text;
+            chatter = changedContact.GetComponentInChildren<Text>().text;
             this.ChangeChat(chatter);
-            GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GoChapter(chatter);
         }
+    }
+
+    public void DoJob()
+    {
+        GameManager GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // could be null if just started game
+        if (GM.activeChapter != null)
+            PromptSwitchJob();
+        else
+            ConfirmSwitchJob();
+    }
+
+    private void PromptSwitchJob()
+    {
+        ToggleConfirmScreen(true);
+    }
+
+    public void ConfirmSwitchJob()
+    {
+        ToggleConfirmScreen(false);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GoChapter(chatter);
+    }
+
+    public void ToggleConfirmScreen(bool togg)
+    {
+        Transform zignal = GameObject.FindGameObjectWithTag("Zignal").transform;
+        foreach (Transform child in zignal)
+        {
+            if (child.name == "ConfirmScreen")
+            {
+                child.gameObject.SetActive(togg);
+            }
+            if (mainUIs.Contains(child.name))
+            {
+                child.gameObject.SetActive(!togg);
+            }
+        }
+    }
+
+    public void ToggleAnswerForm(bool togg)
+    {
+        Transform zignal = GameObject.FindGameObjectWithTag("Zignal").transform;
+        foreach (Transform child in zignal)
+        {
+            if (child.name == "AnswerFormArea")
+            {
+                child.gameObject.SetActive(togg);
+            }
+            if (mainUIs.Contains(child.name))
+            {
+                child.gameObject.SetActive(!togg);
+            }
+        }
+    }
+
+    public void DoReply()
+    {
+        Chapter activeChapter = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().activeChapter;
+        if (activeChapter == null)
+            return;
+        GameObject answerFormPrefab = activeChapter.AnswerForm;
+        ToggleAnswerForm(true);
+        GameObject answerFormArea = GameObject.Find("AnswerFormArea");
+        Instantiate(answerFormPrefab, answerFormArea.transform);
     }
 }

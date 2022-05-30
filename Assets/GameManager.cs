@@ -15,14 +15,18 @@ public class GameManager : MonoBehaviour
         presistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "SaveData.json";
 
         hacker = new Hacker();
+        activeChapter = null;
+        activeChapterName = null;
         LoadGame();
     }
     public Chapter activeChapter;
+    public string activeChapterName;
     public CrackAddict crackAddict;
     public HeartSurgeon heartSurgeon;
 
     public void GoChapter(string chapterName)
     {
+        Chapter prevChapter = activeChapter;
         switch (chapterName)
         {
             case "Crack Addict":
@@ -31,8 +35,13 @@ public class GameManager : MonoBehaviour
             case "Heart Surgeon":
                 activeChapter = heartSurgeon;
                 break;
-            default:
+            // TODO
+            case "Taylor Made":
+                activeChapter = heartSurgeon;
                 break;
+            default:
+                Debug.LogAssertion("Invalid chapter name.");
+                return;
         }
 
         bool haveHackToolsRequired = true;
@@ -50,8 +59,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Does not have required Hack Tools!");
             return;
         }
+        if (prevChapter != null)
+            prevChapter.DeSetupEnvironment();
         activeChapter.SetupEnvironment();
         activeChapter.Play();
+        activeChapterName = chapterName;
     }
 
     public void LoadGame()
@@ -83,21 +95,5 @@ public class GameManager : MonoBehaviour
         Debug.Log(json);
         using StreamWriter writer = new StreamWriter(savePath);
         writer.Write(json);
-    }
-
-    public void CompleteChapter(string chapterName) {
-        FileSystemManager FSM = GameObject.FindGameObjectWithTag("FileSystemManager").GetComponent<FileSystemManager>();
-        switch(chapterName) {
-            case "Crack Addict":
-                if (FSM.GetFileNode("localhost", "/home/root/downloads/exam.pdf") != null)
-                {
-                    hacker.money += 100;
-                    SavePlayer();
-                    LoadPlayer();
-                }
-                break;
-            default:
-                break;
-        }
     }
 }
