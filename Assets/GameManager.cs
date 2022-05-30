@@ -15,37 +15,37 @@ public class GameManager : MonoBehaviour
         presistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "SaveData.json";
 
         hacker = new Hacker();
-        activeChapter = null;
-        activeChapterName = null;
+        activeJob = null;
+        activeJobName = null;
         LoadGame();
     }
-    public Chapter activeChapter;
-    public string activeChapterName;
+    public Job activeJob;
+    public string activeJobName;
     public CrackAddict crackAddict;
     public HeartSurgeon heartSurgeon;
 
-    public void GoChapter(string chapterName)
+    public void GoJob(string jobName)
     {
-        Chapter prevChapter = activeChapter;
-        switch (chapterName)
+        Job prevJob = activeJob;
+        switch (jobName)
         {
             case "Crack Addict":
-                activeChapter = crackAddict;
+                activeJob = crackAddict;
                 break;
             case "Heart Surgeon":
-                activeChapter = heartSurgeon;
+                activeJob = heartSurgeon;
                 break;
             // TODO
             case "Taylor Made":
-                activeChapter = heartSurgeon;
+                activeJob = heartSurgeon;
                 break;
             default:
-                Debug.LogAssertion("Invalid chapter name.");
+                Debug.LogAssertion("Invalid job name: " + jobName);
                 return;
         }
 
         bool haveHackToolsRequired = true;
-        foreach (string requiredhackTool in activeChapter.requiredHackTools)
+        foreach (string requiredhackTool in activeJob.requiredHackTools)
         {
             if (!hacker.hackTools.Contains(requiredhackTool))
             {
@@ -56,14 +56,15 @@ public class GameManager : MonoBehaviour
         if (!haveHackToolsRequired)
         {
             // TODO: alert player
+            // or maybe not?
             Debug.Log("Does not have required Hack Tools!");
             return;
         }
-        if (prevChapter != null)
-            prevChapter.DeSetupEnvironment();
-        activeChapter.SetupEnvironment();
-        activeChapter.Play();
-        activeChapterName = chapterName;
+        if (prevJob != null)
+            prevJob.DeSetupEnvironment();
+        activeJob.SetupEnvironment();
+        activeJob.Play();
+        activeJobName = jobName;
     }
 
     public void LoadGame()

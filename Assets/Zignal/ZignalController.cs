@@ -66,7 +66,7 @@ public class ZignalController : MonoBehaviour
         }
         else
         {
-            if (chatter == GM.activeChapterName)
+            if (chatter == GM.activeJobName)
             {
                 doJobBtn.interactable = false;
                 doJobBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "In Progress";
@@ -151,7 +151,7 @@ public class ZignalController : MonoBehaviour
         if (changedContact.isOn == true)
         {
             chatter = changedContact.GetComponentInChildren<Text>().text;
-            this.ChangeChat(chatter);
+            ChangeChat(chatter);
         }
     }
 
@@ -159,7 +159,7 @@ public class ZignalController : MonoBehaviour
     {
         GameManager GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         // could be null if just started game
-        if (GM.activeChapter != null)
+        if (GM.activeJob != null)
             PromptSwitchJob();
         else
             ConfirmSwitchJob();
@@ -173,7 +173,7 @@ public class ZignalController : MonoBehaviour
     public void ConfirmSwitchJob()
     {
         ToggleConfirmScreen(false);
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GoChapter(chatter);
+        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().GoJob(chatter);
     }
 
     public void ToggleConfirmScreen(bool togg)
@@ -210,10 +210,10 @@ public class ZignalController : MonoBehaviour
 
     public void DoReply()
     {
-        Chapter activeChapter = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().activeChapter;
-        if (activeChapter == null)
+        Job activeJob = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().activeJob;
+        if (activeJob == null)
             return;
-        GameObject answerFormPrefab = activeChapter.AnswerForm;
+        GameObject answerFormPrefab = activeJob.AnswerForm;
         ToggleAnswerForm(true);
         GameObject answerFormArea = GameObject.Find("AnswerFormArea");
         Instantiate(answerFormPrefab, answerFormArea.transform);

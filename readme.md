@@ -12,7 +12,7 @@ The game uses Unity's default presistent save path. If not sure, launch the game
 Some foundational knowledge:
 - 3 apps Terminal, Zignal, Bravo, all can be launched by clicking the dock icons on the left of Desktop
 - Terminal takes in commands and prints out text + change game state
-- Zignal is the "mission control", for selectin different chapters. It also provides chapter context
+- Zignal is the "mission control", for selectin different jobs. It also provides job context
 - Bravo is the shop for buying hack tools
 
 Solution to Crack Addict:

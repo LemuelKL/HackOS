@@ -139,9 +139,9 @@ public class Bleed : MonoBehaviour
         KeyValuePair<string, string> credCombo;
         string answer = "";
         GameManager GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        if (GM.activeChapter.name == "HeartSurgeon")
+        if (GM.activeJob.name == "HeartSurgeon")
         {
-            HeartSurgeon hs = GameObject.FindGameObjectWithTag("Chapters").transform.Find("HeartSurgeon").GetComponent<HeartSurgeon>();
+            HeartSurgeon hs = GameObject.FindGameObjectWithTag("Jobs").transform.Find("HeartSurgeon").GetComponent<HeartSurgeon>();
             credCombo = hs.answer.ElementAt(Random.Range(0, hs.answer.Count));
             answer = string.Format("{0}::{1}", credCombo.Key, credCombo.Value);
         }
