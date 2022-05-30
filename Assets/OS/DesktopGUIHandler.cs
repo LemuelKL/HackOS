@@ -77,4 +77,18 @@ public class DesktopGUIHandler : MonoBehaviour
         }
         return null; // Could not find a parent with given tag.
     }
+
+    public void showAlert(GameObject alertPrefab)
+    {
+        StartCoroutine(spawnAlert(alertPrefab));
+    }
+
+    private IEnumerator spawnAlert(GameObject alertPrefab)
+    {
+        Transform canvas = GameObject.Find("DesktopCanvas").transform;
+        GameObject alert = Instantiate(alertPrefab, canvas.transform);
+        alert.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -30);
+        yield return new WaitForSeconds(3);
+        Destroy(alert);
+    }
 }

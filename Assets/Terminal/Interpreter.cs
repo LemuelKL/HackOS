@@ -21,45 +21,46 @@ public class Interpreter : MonoBehaviour
             command = "----";
         }
         else command = args.command;
+        bool localSession = TM.sessions.Last().hostname == "hack0s";
         switch (command)
         {
             case "voler":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Voler.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
                 }
                 else goto default;
             case "bleed":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Bleed.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
                 }
                 else goto default;
             case "nmap":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Nmap.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
                 }
                 else goto default;
             case "nslookup":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Nslookup.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
                 }
                 else goto default;
             case "hydra":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Hydra.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
                 }
                 else goto default;
             case "ssh":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     Ssh.Execute(TM, args.flagArgs, args.cmdArgs);
                     break;
@@ -97,12 +98,12 @@ public class Interpreter : MonoBehaviour
                 }
                 break;
             case "about":
-                if (TM.sessions.Last().hostname == "hack0s")
+                if (localSession)
                 {
                     TM.PrintResponseLine("");
                     TM.PrintResponseLine("HackOS");
                     TM.PrintResponseLine("an educational sandbox offensive cyber-security game");
-                    TM.PrintResponseLine("designed and programed by Lemuel Lee");
+                    TM.PrintResponseLine("produced by Lemuel Lee");
                     TM.PrintResponseLine("30/4/2022");
                     TM.PrintResponseLine("");
                     TM.FinishCommand();

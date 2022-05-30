@@ -5,8 +5,9 @@ public class CrackAddict : Chapter
 {
     string targetIp = "147.8.2.58";
     string targetDomain = "hcku.hk";
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         this.requiredHackTools = new List<string>()
         {
             "ssh",
@@ -14,7 +15,6 @@ public class CrackAddict : Chapter
             "voler"
         };
         this.rewardMoney = 15;
-        this.rewardExp = 1500;
     }
 
     override public void SetupEnvironment()
@@ -64,8 +64,7 @@ public class CrackAddict : Chapter
     {
         if (!CanComplete())
             return false;
-        Reward();
-        GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>().hacker.completedJobs.Add("Crack Addict");
+        JM.OnJobCompletion("Crack Addict", this.rewardMoney);
         return true;
     }
 
@@ -77,13 +76,5 @@ public class CrackAddict : Chapter
             return true;
         }
         return false;
-    }
-
-    override public void Reward()
-    {
-        GameManager GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-        GM.hacker.money += this.rewardMoney;
-        GM.SaveGame();
-        GM.LoadGame();
     }
 }

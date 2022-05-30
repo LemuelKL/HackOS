@@ -95,6 +95,7 @@ public class Bleed : MonoBehaviour
                 switch (contText)
                 {
                     case "":
+                        doBeat = false;
                         break;
                     case "Y":
                         break;
@@ -141,7 +142,7 @@ public class Bleed : MonoBehaviour
         if (GM.activeChapter.name == "HeartSurgeon")
         {
             HeartSurgeon hs = GameObject.FindGameObjectWithTag("Chapters").transform.Find("HeartSurgeon").GetComponent<HeartSurgeon>();
-            credCombo = hs.answer.ElementAt(Random.Range(0, hs.answer.Count - 1));
+            credCombo = hs.answer.ElementAt(Random.Range(0, hs.answer.Count));
             answer = string.Format("{0}::{1}", credCombo.Key, credCombo.Value);
         }
         int l = answer.Length;
