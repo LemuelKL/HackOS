@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Hacker hacker;
-    public GameObject moneyDisplay;
     private string savePath;
     private string presistentPath;
     void Awake()
@@ -87,7 +86,6 @@ public class GameManager : MonoBehaviour
         string json = reader.ReadToEnd();
 
         hacker = JsonUtility.FromJson<Hacker>(json);
-        moneyDisplay.GetComponent<TMPro.TextMeshProUGUI>().text = string.Format("BTC:<color=green>{0}</color>", hacker.money.ToString());
         GameObject.FindGameObjectWithTag("ShopManager").GetComponent<ShopManager>().UpdateCatalog();
     }
     private void SavePlayer()

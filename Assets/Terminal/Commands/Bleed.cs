@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Bleed : MonoBehaviour
 {
+    public static List<string> manual = new List<string>() {
+        "EXAMPLE USAGE",
+        "    [*] Perform the SSL HeartBleed exploit on a remote host:",
+        "        bleed host_ip"
+    };
     public static Bleed instance;
     void Awake()
     {
@@ -13,6 +18,13 @@ public class Bleed : MonoBehaviour
     }
     public static void Execute(TerminalManager TM, Dictionary<string, string> flagArgs, List<string> cmdArgs)
     {
+        if (flagArgs.ContainsKey("--help"))
+        {
+            TM.PrintResponseLines(manual);
+            TM.FinishCommand();
+            return;
+        }
+
         if (flagArgs.Count != 0)
         {
             TM.PrintResponseLine("Unknown flag/s in arugment!");

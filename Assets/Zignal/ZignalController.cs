@@ -22,16 +22,17 @@ public class ZignalController : MonoBehaviour
     private Button doJobBtn;
     private Button replyBtn;
 
+    private List<string> availableJobs;
     void Start()
     {
         List<Contact> contacts = new List<Contact>();
         contacts.Add(new Contact { name = "Crack Addict", avatar = crack_addict });
         contacts.Add(new Contact { name = "Heart Surgeon", avatar = heart_surgeon });
         contacts.Add(new Contact { name = "Taylor Made", avatar = taylor_made });
-        // contacts.Add(new Contact { name = "Stasi", avatar = stasi });
-        // contacts.Add(new Contact { name = "Bombshell", avatar = bombshell });
-        // contacts.Add(new Contact { name = "Human Sea", avatar = human_sea });
-        // contacts.Add(new Contact { name = "Old-fashioned", avatar = old_fashioned });
+        contacts.Add(new Contact { name = "Stasi", avatar = stasi });
+        contacts.Add(new Contact { name = "Bombshell", avatar = bombshell });
+        contacts.Add(new Contact { name = "Human Sea", avatar = human_sea });
+        contacts.Add(new Contact { name = "Old-fashioned", avatar = old_fashioned });
         foreach (Contact contact in contacts)
         {
             GameObject newContact = Instantiate(contactPrefab, contactList.transform);
@@ -52,10 +53,24 @@ public class ZignalController : MonoBehaviour
         doJobBtn = actionArea.Find("BeginBtn").GetComponent<Button>();
         replyBtn = actionArea.Find("ReplyBtn").GetComponent<Button>();
         GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
+        // TODO: remove this temp measure
+        availableJobs = new List<string>();
+        availableJobs.Add("Crack Addict");
+        availableJobs.Add("Heart Surgeon");
     }
 
     void Update()
     {
+        if (!availableJobs.Contains(chatter))
+        {
+            doJobBtn.interactable = false;
+            replyBtn.interactable = false;
+            doJobBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "N/A";
+            replyBtn.GetComponentInChildren<TMPro.TMP_Text>().text = "";
+            return;
+        }
+
         List<string> completedChatters = GM.hacker.completedJobs;
         if (completedChatters.Contains(chatter))
         {
@@ -111,16 +126,26 @@ public class ZignalController : MonoBehaviour
             new chatRecord("HS", "172.245.143.198"),
             new chatRecord("HS", "I need `root`, `staff` and `admin`"),
             new chatRecord("Me", "ok"),
-            new chatRecord("Me", "that'll be 15 BTC"),
-            new chatRecord("CA", "right."),
+            new chatRecord("Me", "I charge 5 BTC"),
+            new chatRecord("CA", "fair!"),
         }},
         {"Taylor Made", new List<chatRecord>(){
             new chatRecord("TM", "I really like this girl..."),
             new chatRecord("TM", "Can u get her FB acc?"),
             new chatRecord("Me", "Sure, her name?"),
             new chatRecord("TM", "Taylor"),
-        }}
+        }},{"Stasi", new List<chatRecord>(){
+            new chatRecord("S", "..."),
 
+        }},{"Bombshell", new List<chatRecord>(){
+            new chatRecord("B", "..."),
+
+        }},{"Human Sea", new List<chatRecord>(){
+            new chatRecord("HS", "..."),
+
+        }},{"Old-fashioned", new List<chatRecord>(){
+            new chatRecord("OF", "..."),
+        }}
     };
 
     private void ChangeChat(string chatter)

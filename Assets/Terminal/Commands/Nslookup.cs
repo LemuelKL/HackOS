@@ -4,8 +4,20 @@ using System.Linq;
 using UnityEngine;
 public class Nslookup : MonoBehaviour
 {
+    public static List<string> manual = new List<string>() {
+        "EXAMPLE USAGE",
+        "    [*] Lookup the DNS record of a domain name:",
+        "        nslookup domain"
+    };
     public static void Execute(TerminalManager TM, Dictionary<string, string> flagArgs, List<string> cmdArgs)
     {
+        if (flagArgs.ContainsKey("--help"))
+        {
+            TM.PrintResponseLines(manual);
+            TM.FinishCommand();
+            return;
+        }
+
         if (flagArgs.Count != 0)
         {
             TM.PrintResponseLine("unknown flag/s in arugment!");

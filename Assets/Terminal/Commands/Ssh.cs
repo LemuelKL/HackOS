@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Ssh : MonoBehaviour
 {
+    public static List<string> manual = new List<string>() {
+        "EXAMPLE USAGE",
+        "    [*] Establish a SSH connection with a remote host, authenticating as an user:",
+        "        ssh username@host_ip"
+    };
     public static Ssh instance;
     string username;
     void Awake()
@@ -13,6 +18,13 @@ public class Ssh : MonoBehaviour
     }
     public static void Execute(TerminalManager TM, Dictionary<string, string> flagArgs, List<string> cmdArgs)
     {
+        if (flagArgs.ContainsKey("--help"))
+        {
+            TM.PrintResponseLines(manual);
+            TM.FinishCommand();
+            return;
+        }
+
         Internet internet = GameObject.FindGameObjectWithTag("Internet").GetComponent<Internet>();
 
         bool validArgs = true;

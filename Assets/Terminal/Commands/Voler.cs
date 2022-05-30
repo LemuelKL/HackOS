@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Voler : MonoBehaviour
 {
+    public static List<string> manual = new List<string>() {
+        "EXAMPLE USAGE",
+        "    [*] Download a file from a remote host using credentials:",
+        "        voler -l username -p password host_ip /path/to/file"
+    };
     public static Voler instance;
     void Awake()
     {
@@ -13,6 +18,13 @@ public class Voler : MonoBehaviour
     // voler -l root -p toor ip /home/root/comp3329/exam.pdf
     public static void Execute(TerminalManager TM, Dictionary<string, string> flagArgs, List<string> cmdArgs)
     {
+        if (flagArgs.ContainsKey("--help"))
+        {
+            TM.PrintResponseLines(manual);
+            TM.FinishCommand();
+            return;
+        }
+        
         if (flagArgs.Count != 2)
         {
             TM.PrintResponseLine("Unknown flag/s in arugment!");

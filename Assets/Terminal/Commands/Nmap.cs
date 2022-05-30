@@ -5,6 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Nmap : MonoBehaviour
 {
+    public static List<string> manual = new List<string>() {
+        "EXAMPLE USAGE",
+        "    [*] Perform a network vulnerability scan on an IP:",
+        "        nmap host_ip"
+    };
     public static Nmap instance;
     void Awake()
     {
@@ -12,6 +17,13 @@ public class Nmap : MonoBehaviour
     }
     public static void Execute(TerminalManager TM, Dictionary<string, string> flagArgs, List<string> cmdArgs)
     {
+        if (flagArgs.ContainsKey("--help"))
+        {
+            TM.PrintResponseLines(manual);
+            TM.FinishCommand();
+            return;
+        }
+
         if (flagArgs.Count != 0)
         {
             TM.PrintResponseLine("Unknown flag/s in arugment!");

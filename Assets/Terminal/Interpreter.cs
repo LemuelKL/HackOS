@@ -7,7 +7,7 @@ public class Interpreter : MonoBehaviour
 {
     TerminalManager TM;
     GameManager GM;
-    static List<string> hackosCmds = new List<string> { "voler", "bleed", "nmap", "nslookup", "hydra", "ssh" };
+    static List<string> hackosCmds = new List<string> { "voler", "bleed", "nmap", "nslookup", "hydra", "ssh", "about" };
     void Awake()
     {
         TM = this.GetComponent<TerminalManager>(); // using `this` ensures the correct TM in multi-terminal scenarios
@@ -15,6 +15,12 @@ public class Interpreter : MonoBehaviour
     }
     public void Interpret(string userInput)
     {
+        if (userInput == "cheat")
+        {
+            Cheat.Execute(TM);
+            return;
+        }
+
         Argument args = ParseArguments(userInput);
         string command;
         Hacker hacker = GM.hacker;
@@ -79,18 +85,14 @@ public class Interpreter : MonoBehaviour
                 }
                 break;
             case "about":
-                if (localSession)
-                {
-                    TM.PrintResponseLine("");
-                    TM.PrintResponseLine("HackOS");
-                    TM.PrintResponseLine("an educational sandbox offensive cyber-security game");
-                    TM.PrintResponseLine("produced by Lemuel Lee");
-                    TM.PrintResponseLine("30/4/2022");
-                    TM.PrintResponseLine("");
-                    TM.FinishCommand();
-                    break;
-                }
-                else goto default;
+                TM.PrintResponseLine("");
+                TM.PrintResponseLine("HackOS");
+                TM.PrintResponseLine("an educational sandbox offensive cyber-security game");
+                TM.PrintResponseLine("produced by Lemuel Lee");
+                TM.PrintResponseLine("30/4/2022");
+                TM.PrintResponseLine("");
+                TM.FinishCommand();
+                break;
             default:
                 TM.PrintResponseLine("Command not recognized.");
                 TM.FinishCommand();
