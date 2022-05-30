@@ -21,10 +21,8 @@ Solution to Crack Addict:
 3. hydra -l root -P wordlists/rockyou.txt 147.8.2.58 ssh
 4. ssh root@147.8.2.58
 5. voler -l root -p toor 147.8.2.58 /home/root/comp3329/exam.pdf
-END
 
 Solution to Heart Surgeon:
 1. bleed 172.245.143.198
 2. look up `[username]::[password]` combo from the gibberish
 3. repeat: press y + enter in the "Beat more?" prompt until you have found 3 pairs of credentials
-END
