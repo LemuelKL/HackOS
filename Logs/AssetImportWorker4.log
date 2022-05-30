@@ -2676,3 +2676,9 @@ Received Import Request.
   path: Assets/Sound/sb_tearsinrain.mp3
   artifactKey: Guid(c6a73c1592ce2b241afebb2c9cab3d9c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/Sound/sb_tearsinrain.mp3 using Guid(c6a73c1592ce2b241afebb2c9cab3d9c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '646b5604b7910f79103027d49d5fffca') in 1.616624 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 72.805561 seconds.
+  path: Assets/Jobs/Resources/hsbc.txt
+  artifactKey: Guid(1ebe018bb9220ce4b96cb6e0ccdcddf8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Jobs/Resources/hsbc.txt using Guid(1ebe018bb9220ce4b96cb6e0ccdcddf8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b427e82f7431400a53e23808f76bcc4') in 2.244569 seconds 
