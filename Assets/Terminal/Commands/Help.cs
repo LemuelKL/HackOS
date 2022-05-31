@@ -8,8 +8,8 @@ namespace TerminalCommand
     {
         public static void Execute(TerminalManager TM)
         {
-            TM.PrintResponseLine("GNU besh, version 0.0.1");
-            TM.PrintResponseLine("STANDARD COMMANDS");
+            TM.PrintResponseLine("HackOS besh, version 0.0.1");
+            TM.PrintResponseLine("LIST OF COMMANDS");
             TM.PrintResponseLine("   help     - print this manual");
             TM.PrintResponseLine("   ls       - list files and directories");
             TM.PrintResponseLine("   pwd      - print working directory");

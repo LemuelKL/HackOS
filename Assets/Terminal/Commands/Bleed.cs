@@ -153,7 +153,7 @@ public class Bleed : MonoBehaviour
         GameManager GM = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         if (GM.activeJob.name == "HeartSurgeon")
         {
-            HeartSurgeon hs = GameObject.FindGameObjectWithTag("Jobs").transform.Find("HeartSurgeon").GetComponent<HeartSurgeon>();
+            HeartSurgeon hs = GameObject.Find("Jobs").transform.Find("HeartSurgeon").GetComponent<HeartSurgeon>();
             credCombo = hs.answer.ElementAt(Random.Range(0, hs.answer.Count));
             answer = string.Format("{0}::{1}", credCombo.Key, credCombo.Value);
         }
