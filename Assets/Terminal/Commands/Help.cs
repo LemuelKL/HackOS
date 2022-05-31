@@ -9,6 +9,7 @@ namespace TerminalCommand
         public static void Execute(TerminalManager TM)
         {
             TM.PrintResponseLine("HackOS besh, version 0.0.1");
+            TM.PrintResponseLine("Type  <command> --help  to display help manual of command.");
             TM.PrintResponseLine("LIST OF COMMANDS");
             TM.PrintResponseLine("   help     - print this manual");
             TM.PrintResponseLine("   ls       - list files and directories");

@@ -6,6 +6,7 @@ public class FileSystem
 {
     public class FileNode
     {
+        public string hash; // not really hash but more like tag/signature for internal use
         public bool isDirectory;
         public string name;
         public FileNode parent;
