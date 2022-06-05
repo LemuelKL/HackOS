@@ -2,6 +2,9 @@
 
 HackOS is an offensive cyber-security sandbox game. Very much proof-of-concept and far from production-ready.
 
+This is a participating project of the 6th InnoShow held by the Faculty of Engineering, The University of Hong Kong.
+https://innoacademy.engg.hku.hk/hack/
+
 ### Basic Overview
 - 3 apps Terminal, Zignal, Bravo, all can be launched by clicking the dock icons on the left of Desktop.
 - Terminal is where hack actions are done: entering hacking commands, mutating game states, etc.
